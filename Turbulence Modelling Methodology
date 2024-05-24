@@ -1,0 +1,60 @@
+# -------------------------------------------------------------------------------------------------------------------------------------#
+#                                                                             #                   
+#                                                                           @@@@.                 
+#                                                                          @@@@@@@                
+#                                                                        @@@@@@@@@@@              
+#                                                                      @@@@@@@@@@@@@@&            
+#                                                                    @@@@@@@@@@@@@@@@@@          
+#                                                                  @@@@@@@@@@@@@@@@@@@@@@.        
+#                                                                .@@@@@@@@@@@@@@@@@@@@@@@@@       
+#                                                               @@@@@@@@@@@@@@@@@@@@@@@@@@@@&     
+#                                                              @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
+#                                                             *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
+#                                                              @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
+#                                                              ,@@@@@@@@@@@@@@@@@@@@@@@@@@@@@     
+#                                                                 @@@@@@@@.@@@@@@@.@@@@@@@@       
+#                                                                         @@@@@@@@@               
+#                                                                       /@@@@@@@@@@@
+
+#                                                            A  K  A  S  H     A  S  O  K  A  N 
+
+# --------------------------------------------------------------------------------------------------------------------------------------#
+
+Reynolds Averaged Navier Stokes (RANS) Modelling
+
+Decomposing the velocity component into a time averged and flucuating component. And hence simplying the equation but lands in a term called
+Reynolds Stress Term. Solving this non linear is also part of the GE Equation. But later Bousinessq simplified into a more better formula.
+Generally there a One Equation and Two Equation Model.
+    - Spalart Almaras Model (One Equation Model)
+    - K Epsilon Model (Two Equation Model)
+    - K Omega Model (Two Equation Model)
+For better understanding, read some textbooks. 
+
+
+#-----------------------------------------------METHDOLOGY-------------------------------------------------------------------------------#
+
+Standard Steps:
+
+1. Calculate Turbulence Length Scale (l)
+        l = 0.07* (Hydraulic Diameter)
+2. Calculate or assume Turbulence Intensity (I)
+    Ratio of rms value of fluctuating velocity component to mean flow value
+            I = u'/u_averag
+            I = 0.16*(Re)^(-1/8) - Emperical Formula for ducts and pipes
+        where Re is Reynolds Number
+
+        Note:  Assumptions goes as :
+                    - low intensity      : 1-5%
+                    - moderate intensity : 5-10%
+                    - high intensity     : 10-20%
+3. Calculate Turbulent Kinetic Energy (K)
+            K = (3/2)*(I*U)^2
+        where I is obtained from above equation and U_avg
+4. Calculate Turbulent Dissipation Energy (Epsilon)
+            Epsilon = ( (C_mu)*(k)^(3/2) ) / l
+        where, l is the length scale and k is kinetic energy
+        C_mu is a constant of 0.09 in general models 
+5. Calculate Specific Dissipation Rate (Omega)
+            Omega = Epsilon / ( C_mu*K)
+
+        
