@@ -59,10 +59,10 @@ project directory. A general note would be the following
               Hence, pick the appropriate Flow regime and suitable flow models
               
         3. If Turbulent which model (k Omega, K epsilon, K omega sst, realisable K Epsilon)
-              a. K Omega
-              b. K Epsilon
-              c. K Omega SST
-              d. Realizable K Epsilon
+              a. K Omega                : Well-suited for boundary layer flows, adverse pressure gradient flows, and separated flows.
+              b. K Epsilon              : Suitable for a wide range of industrial flows, including internal and external flows ( general purpose model)
+              c. K Omega SST            : Combination o fbotn epsilon and omega (wider range of flow regime)
+              d. Realizable K Epsilon   : 
         4. Single phase or Multi-phase Modeling ( VOF , Euler Approach) 
         4. Heat Transfer Modelling (Conjugate heat transfer. Fluid with heat transfer - No Solid Modeling)
         5. Flow Modelling ( Porous Media, Combustion and Chemical Reaction)
