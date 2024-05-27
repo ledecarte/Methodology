@@ -1,0 +1,87 @@
+# -------------------------------------------------------------------------------------------------------------------------------------#
+#                                                                             #                   
+#                                                                           @@@@.                 
+#                                                                          @@@@@@@                
+#                                                                        @@@@@@@@@@@              
+#                                                                      @@@@@@@@@@@@@@&            
+#                                                                    @@@@@@@@@@@@@@@@@@          
+#                                                                  @@@@@@@@@@@@@@@@@@@@@@.        
+#                                                                .@@@@@@@@@@@@@@@@@@@@@@@@@       
+#                                                               @@@@@@@@@@@@@@@@@@@@@@@@@@@@&     
+#                                                              @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
+#                                                             *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
+#                                                              @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
+#                                                              ,@@@@@@@@@@@@@@@@@@@@@@@@@@@@@     
+#                                                                 @@@@@@@@.@@@@@@@.@@@@@@@@       
+#                                                                         @@@@@@@@@               
+#                                                                       /@@@@@@@@@@@
+
+#                                                            A  K  A  S  H     A  S  O  K  A  N 
+# --------------------------------------------------------------------------------------------------------------------------------------#
+This is a general approach for flow simulation with minir details and more details will be provided in the appropriate 
+project directory. A general note would be the following
+    a. Identify if its compressible or incomrepssible flow
+    b. Identify if its single phase or multi-phase flows 
+    c. Identify if it is Internal or External Flow
+    d. Identify the flow regime - LAmianr or Turbulent Flow
+    e. Identify if teh flow gets fully developed or it doesnt get fully developed, these are application specific. Which leads into steady state approximation or Transient analysis 
+    f. Identify the governing equations that are in needed. ( Mass Conservation, Momnentum and Energy Conservation)
+
+#---------------------------------------------- SIMULATION METHODOLOGY -------------------------------------------------------------
+ Simulation Type :
+        1. Calculate Mach Number (Incompressible or Compressible Flow)
+              The Mach number (M) is a dimensionless quantity in fluid dynamics that represents the ratio of the speed of an object 
+              moving through a fluid (such as air) to the speed of sound in that fluid. Mathematically, it is defined as:
+                          Mach Number(Ma) = velocity of object relative to fluid / speed of sound in that fluid
+
+                          Note : Speed Of Sound = sqrt(gamma*R*T) 
+                          // where gamma is cp/cv and R specific gas constant // Valid for Ideal gases
+              Ma < 0.3 // Incompressible
+              Ma > 0.3 // Compressible
+
+              Hence, from this value we can pick the appropriate solver.
+                
+        2. Calculate Reynolds Number ( Laminar or Turbulent)
+              The Reynolds number (Re) is a dimensionless quantity used in fluid mechanics to predict the flow regime of a fluid, 
+              such as whether it will be laminar or turbulent, based on the characteristics of the flow. It is named after Osborne Reynolds, 
+              a pioneering scientist in the field of fluid dynamics.
+
+                          Reynolds Number (Re) = (rho*mean_velocity*hydraulic_diameter)/Kinematic Viscosity
+                              Note: Hydraulic Diameter coudl be approximated as cuberoot(volume) for complex geometries as in CFX
+
+              Laminar Regime   :   Re < 2300          |
+              Transiton Regime :   2300 < Re < 4000   |    INTERNAL FLOW 
+              Turbulent Regime :   Re > 4000          |
+              ------------------------------------------------------------------- 
+              Laminar Regime   :   Re < 2300          |
+              Turbulent Regime :   2300 < Re < 4000   |    EXTERNAL FLOW 
+  
+              Hence, pick the appropriate Flow regime and suitable flow models
+              
+        3. If Turbulent which model (k Omega, K epsilon, K omega sst, realisable K Epsilon)
+              a. K Omega
+              b. K Epsilon
+              c. K Omega SST
+              d. Realizable K Epsilon
+        4. Single phase or Multi-phase Modeling ( VOF , Euler Approach) 
+        4. Heat Transfer Modelling (Conjugate heat transfer. Fluid with heat transfer - No Solid Modeling)
+        5. Flow Modelling ( Porous Media, Combustion and Chemical Reaction)
+
+#---------------------------------------------- SIMULATION STARTEGY --------------------------------------------------------------------------# 
+
+A. Mesh Generation
+        1. SnappyHexMesh without layers (Laminar Case)
+        2. SnappyHexMesh with Inflation Layers (Turbulent Case)
+B. Initalisation Strategy 
+        1.  Use PotentialFoam to intiliase the case for better Intial Fields
+                After your mesh is generated and before running the actual solver. It is always better to provide a 
+                better intial fields for velocity. This could be done by solving the potential flow equation.
+                In openFOAM, in terminal run the follwing command ( no need chamge in controlDIct applcation to potentialFoam)
+                                    potentialFoam -writephi // this writes flux fields phi in time directory (0)
+                Note: Same could be used for parallel runs as mpirun -np 4 - above cmmd with -parallel flag 
+        2.  Later use the laminar results for Turbulant case Initial Fields
+C. Set appropriate Schemes and Linear Solvers
+        1. Second Order Accurate 
+        2. Simple Coupling 
+D. Turbulence Model 
+        1. RANS - K Epsion Realisablke Model (Swirling Priority)
