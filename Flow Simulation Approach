@@ -83,5 +83,11 @@ B. Initalisation Strategy
 C. Set appropriate Schemes and Linear Solvers
         1. Second Order Accurate 
         2. Simple Coupling 
-D. Turbulence Model 
+D. Laminar Model 
+        Things to remember 
+        - If you are using a pressure BC for inlet then do make sure that you have your internalFields same as the inlet BC. 
+        - Always make sure to have a better intial guess analyitically or iteration based (potentialFoam), which coudl speed up your iterations
+        - Inlet Pressure BC and outlet Volumetric Flow rate
+        - Inlet Velocity and outlet Pressure known value
+E. Turbulence Model 
         1. RANS - K Epsion Realisablke Model (Swirling Priority)
