@@ -35,6 +35,24 @@ For better understanding, read some textbooks.
 
 Standard Steps:
 
+----------- Which Y plus to start with --------------------------------
+
+
+----------- Y plus and First Cell Thickness -----------------------------
+1. Fix a suitable y Plus for the problem
+                y_plus = (rho * U_Tow * y) / mu 
+2. Calculate first cell height by the following steps
+    -    Calculate the appropriate Skin Friction Coefficient(C_f)
+                Internal Flow  - C_f = 0.079*Re_d^(-0.28) 
+                External Flow  - C_f = 0.058*Re_l^(-0.2)
+    -    Calculate the shear stress value (Tow_w)
+                Tow_w = 0.5 * C_f * rho * U_inf^2
+    -    Calculate Friction velocity (U_Tow)
+                U_Tow = sqrt(Tow_w/rho)
+    -    Calculate first cell centroid distance from wall 
+                y = y_plus* mu / (rho * U_Tow)
+
+----------- Turbulence Model Parameters -----------------------------------
 1. Calculate Turbulence Length Scale (l)
         l = 0.07* (Hydraulic Diameter)
 2. Calculate or assume Turbulence Intensity (I)
