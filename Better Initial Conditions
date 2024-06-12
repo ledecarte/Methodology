@@ -1,0 +1,32 @@
+The better your inital guess the lesser iterations for the solution to converge. But it is not practically possible to have the values in hand before simulaition in most cases. Otherwise 
+we would have been jobless.
+
+As in Ansys, Intialisation (Hybrid and standard) step actually make sure that we get a better initial fields to start with. 
+Some possible ways :
+1. Analytically calculate the initial values and its not possible most times
+2. Use initilisation to get better intial fields
+3. Use previous results to intialise your case (best)
+
+  1. Analytical :
+      Its possible to calculate thebes starting value at most of the times rather than (0 0 0) in openFoam. If we know the inlet velocity we could just initialise all the internal field to have the same value.
+      Sometimes it could through you convergence issues. If it works well and good.
+  2. Initialisation :
+      The fundamental is to run an lesser expensiive iterative solver to calculate the initial field values (phi,p,U)
+      Basics goes back into velocity potential and Euler pressure equations. In openFOAM, these could be done using potentialFOAM solver.
+      Could be used in following manner
+          potentialFoam              // writes velocity field
+          potentialFoam -writephi    // writes volumetric flux field
+          potentialFoam -writePhi    // writes velocity potential
+          potentialFoam -writep      // writes pressure field
+      Note: Do make sure that the internalField are not set as (0 0 0). Hence it would show intialResidual value as 0. (learnt form mistakes)
+  3. Mapping Results :
+     This approach is pretty cool if you could run a case with very coarse mesh and map the result into a finer grid ( interpolation of fields).
+     These coudl also be used as intial fields for turbulant cases where you could use the laminar results to start with or where use a steady state result 
+     for a transient simulation if you are not interested in initial time results.  
+      Could be used in the following way
+          mapFields -consistent -sourceTime 'latestTime' ../test_case(directory of the results that shoudl be mapped)
+    
+      Note : If the size of the domain as well as boundaries remains same for both cases. Then you could use mapFields utility without a mapFieldDict. Use the command as following
+            "mapFields -consistent -sourceTime 'latestTime'  case directory path" and this command should be ran from directory which should get mapped.
+            
+      Disclaimer: Consistent flag should only be used if both the cases are having the same boundary patches and idetntical geometry
