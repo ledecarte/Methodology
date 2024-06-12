@@ -50,4 +50,4 @@ Some possible ways :
       Note : If the size of the domain as well as boundaries remains same for both cases. Then you could use mapFields utility without a mapFieldDict. Use the command as following
             "mapFields -consistent -sourceTime 'latestTime'  case directory path" and this command should be ran from directory which should get mapped.
             
-      Disclaimer: Consistent flag should only be used if both the cases are having the same boundary patches and idetntical geometry
+      Disclaimer: Consistent flag should only be used if both the cases are having the same boundary patches and identical geometry
