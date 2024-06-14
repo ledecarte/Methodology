@@ -1,0 +1,33 @@
+------------------------------------------ SIMUALTION OF MOVING OBJECTS ----------------------------------------------------------------
+Lets put an actual scenario in picture. Generally in valve simulations are done partially open and fully opened with an objective 
+to get the pressure contour within the internal system or the pressure drop the system provides or even the flow lines to see 
+seperations and velocity at a particular section.
+
+But there are cases where the valves can be opened in realtime in simulation. Where the valve should move its postition with 
+respect to time. In a broader picture, all the code understands is that there is grid or stencil where one of the pacthes 
+is valve. Hence these meshes should change in real time to simulate the effect of these valve moving. 
+
+Mesh should consistantly change according to the new position without losing the quality of the mesh. 
+Which is a tough job!!
+
+ --------- General approaches for the Problem -----------------------------------------------
+  1. Moving Mesh (Dynamic Mesh) 
+      Suitable for aerodynamic problems where boundary layer is important
+        - ALE
+        - Remeshing
+        - Spring-based Smoothing and Layering
+    Note : Sliding Mesh Motion(Slides past the stationary object) is technique well defined for rotation motion such as in turbomachinery, fans, etc. But dyn mesh can handle 
+           translation, rotation and deformation. 
+  2. Immersed Boundary Method 
+      Embedding the boundary of a moving object into a fixed grid and representing the 
+      effect of the boundary using source terms in the governing equation.
+  3. Overset Grids/Chimera Grids 
+      Complex motion where multiple moving bodies with complex trajectories.
+  4. Mesh Free Methods
+        - Smoothed Particle Hydrodynamics (SPH)
+        - Lattice Boltzmann Method (LBM)
+  5. Boundary-Conforming Methods
+        - Level Set Method (Suitable for FSI)
+  ---------------------------------------------------------------------------------------------
+
+1. DYNAMIC MESH MOTION
